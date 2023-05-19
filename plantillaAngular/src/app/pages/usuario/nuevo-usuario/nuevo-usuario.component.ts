@@ -26,8 +26,12 @@ export class NuevoUsuarioComponent implements OnInit {
   
   
   ngOnInit() {
-    this.usuarioService.traerRoles().subscribe((data: Role[]) => {
-      this.roles = data;
+    this.usuarioService.traerRoles().subscribe({
+      next: (data: Role[]) => {
+        this.roles = data;
+      },
+      error:()=>{console.log('Ocurrió un error en el servidor');},
+      complete:() => {}
     });
     this.form = this.formBuilder.group({
       username: ['', Validators.required],
@@ -50,10 +54,15 @@ export class NuevoUsuarioComponent implements OnInit {
         status: this.form.value.status,
         roles: [JSON.parse(this.form.value.roles)] ,
       };
-      console.log(usuario);
-      this.usuarioService.crearNuevoUsuario(usuario).subscribe(() => {
-        this.usuarioGuardado.emit(usuario);
-        alert('Usuario creado');
+      this.usuarioService.crearNuevoUsuario(usuario).subscribe({
+        next:() => {
+          this.usuarioGuardado.emit(usuario);
+          alert('Usuario creado');
+        },
+        error:()=>{
+          alert('Ocurrió un error en el servidor');
+        },
+        complete:() => {}
       });
     } else {
       alert('Debe completar todos los campos');

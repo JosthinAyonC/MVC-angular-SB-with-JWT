@@ -14,38 +14,59 @@ export class EditarUsuarioComponent {
   usuario!: Usuario;//Usuario recuperado para editar
   form!: FormGroup;
   roles: Role[] = [];
+  @Input() idUsuarioAEditar!: Usuario;
+  id = localStorage.getItem('idUsuario');
 
   constructor(
     private usuarioService: UsuarioServiceService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) { }
 
-  @Input() idUsuarioAEditar!: Usuario;
+
+  readonlyMode: boolean = true;
+
+  habilitarEdicion() {
+    this.readonlyMode = false;
+  }
 
   ngOnInit() {
-    this.usuarioService.traerRoles().subscribe((data: Role[]) => {
-        this.roles = data;
-      });
-    this.editar();
+    //Hacer valido el formulario
     this.form = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
-      password: ['', Validators.required],
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       status: ['', Validators.required],
       roles: ['', Validators.required],
     });
-    
-    
-  }
-  editar() {
-    let id = localStorage.getItem('idUsuario');
-    this.usuarioService.obtenerUnUsuario(+id!).subscribe((data) => {
-      this.usuario = data;
+    //Traer los roles para el select
+    this.usuarioService.traerRoles().subscribe({
+      next: (data: Role[]) => {
+        this.roles = data;
+      },
+      error: (error) => { console.log(`Ocurrió un error al traer los roles ${error.status}`); },
+      complete: () => { }
+    });
+    //Obtener el usuario y setear los valores iniciales
+    this.usuarioService.obtenerUnUsuario(+this.id!).subscribe({
+      next: (data) => {
+        this.usuario = data;
+      },
+      error: (error) => { console.log(`Ocurrió un error al traer el usuario ${error.status}`); },
+      complete: () => {
+        this.form.patchValue({
+          username: this.usuario.username,
+          email: this.usuario.email,
+          firstname: this.usuario.firstname,
+          lastname: this.usuario.lastname,
+          status: this.usuario.status,
+          roles: this.usuario.roles,
+        });
+      }
     });
   }
+
   volver() {
     this.router.navigate(['usuario']);
   }
@@ -56,9 +77,6 @@ export class EditarUsuarioComponent {
     if (this.form.valid) {
       const usuario: Usuario = {
         id: this.usuario.id,
-        username: this.form.value.username,
-        email: this.form.value.email,
-        password: this.form.value.password,
         firstname: this.form.value.firstname,
         lastname: this.form.value.lastname,
         status: this.form.value.status,
