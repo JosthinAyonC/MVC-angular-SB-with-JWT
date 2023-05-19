@@ -91,7 +91,7 @@ public class UserService {
         if (fuente.getPassword() != null) {
             destino.setPassword(encoder.encode(fuente.getPassword()));
         }
-        if (fuente.getRoles() != null) {
+        if (fuente.getRoles().size() > 0) {
         destino.setRoles(fuente.getRoles());
         }
         if (fuente.getStatus() != null) {
