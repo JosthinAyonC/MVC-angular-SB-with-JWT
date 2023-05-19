@@ -37,9 +37,7 @@ export class EditarUsuarioComponent {
       status: ['', Validators.required],
       roles: ['', Validators.required],
     });
-    this.form.patchValue({
-      firstname: this.usuario.firstname
-    });
+    
     
   }
   editar() {

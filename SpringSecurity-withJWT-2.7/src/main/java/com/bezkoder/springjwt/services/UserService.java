@@ -67,7 +67,7 @@ public class UserService {
         if(camposUnicosYnoNulos(signUpRequest).getStatusCode().is4xxClientError()){
             return camposUnicosYnoNulos(signUpRequest);
         }
-        Set<Role> strRoles = signUpRequest.getRoles();
+        Set<Role> strRoles = roleRepository.getRoleUser();
         signUpRequest.setRoles(strRoles);
         signUpRequest.setStatus("A");
         signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));

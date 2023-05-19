@@ -19,7 +19,7 @@
         <td>{{ usuario.username }}</td>
         <td>{{ usuario.email }}</td>
         <td *ngFor="let rol of usuario.roles">{{ rol.name == "ROLE_MODERATOR"? "Moderador":(rol.name == "ROLE_USER"?"Usuario":"Administrador") }}</td>
-        <td>{{ usuario.status }}</td>
+        <td>{{ usuario.status == "A"? "Activo" : "Inactivo" }}</td>
         <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirmacion" (click)="obtenerUsuario(usuario)">Eliminar</button>
         <a class="btn btn-secondary" (click)="obtenerUsuarioId(usuario)">Editar</a></td>
       </tr>
