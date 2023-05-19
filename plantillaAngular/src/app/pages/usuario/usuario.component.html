@@ -1,0 +1,26 @@
+<div class="container">
+  <button class="btn btn-info m-2"  data-bs-toggle="modal" data-bs-target="#modal-nuevoUsuario">Agregar nuevo</button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Roles</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>{{ usuario.roles }}</td>
+        <td>{{ usuario.estado }}</td>
+        <td><button class="btn btn-info" (click)="delete(usuario.id)">eliminar</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <app-nuevo-usuario></app-nuevo-usuario>
+</div>
