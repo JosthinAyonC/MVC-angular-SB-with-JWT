@@ -5,6 +5,7 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Usuario</th>
+        <th scope="col">Nombre de usuario</th>
         <th scope="col">Correo</th>
         <th scope="col">Roles</th>
         <th scope="col">Estado</th>
@@ -14,13 +15,23 @@
     <tbody>
       <tr *ngFor="let usuario of usuarios; let i = index">
         <th scope="row">{{ i + 1 }}</th>
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.correo }}</td>
-        <td>{{ usuario.roles }}</td>
-        <td>{{ usuario.estado }}</td>
-        <td><button class="btn btn-info" (click)="delete(usuario.id)">eliminar</button></td>
+        <td>{{ usuario.firstname }} {{usuario.lastname }}</td>
+        <td>{{ usuario.username }}</td>
+        <td>{{ usuario.email }}</td>
+        <td *ngFor="let rol of usuario.roles">{{ rol.name == "ROLE_MODERATOR"? "Moderador":(rol.name == "ROLE_USER"?"Usuario":"Administrador") }}</td>
+        <td>{{ usuario.status }}</td>
+        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirmacion" (click)="obtenerUsuario(usuario)">Eliminar</button>
+        <a class="btn btn-secondary" (click)="obtenerUsuarioId(usuario)">Editar</a></td>
       </tr>
     </tbody>
   </table>
-  <app-nuevo-usuario></app-nuevo-usuario>
+
+  <app-nuevo-usuario (usuarioGuardado)="onUsuarioGuardado($event)"></app-nuevo-usuario>
+  
+  <app-modal-confirm 
+  [idUsuarioAEliminar]="usuarioSeleccionado"
+  (eliminarUsuario)="delete($event)"
+  ></app-modal-confirm>
+   
 </div>
+
