@@ -26,10 +26,6 @@ export class EditarUsuarioComponent {
 
   readonlyMode: boolean = true;
 
-  habilitarEdicion() {
-    this.readonlyMode = false;
-  }
-
   ngOnInit() {
     //Hacer valido el formulario
     this.form = this.formBuilder.group({
@@ -61,7 +57,7 @@ export class EditarUsuarioComponent {
           firstname: this.usuario.firstname,
           lastname: this.usuario.lastname,
           status: this.usuario.status,
-          roles: this.usuario.roles,
+          roles: this.toJson(this.usuario.roles?.[0]),
         });
       }
     });
@@ -82,13 +78,17 @@ export class EditarUsuarioComponent {
         status: this.form.value.status,
         roles: [JSON.parse(this.form.value.roles)],
       };
-      console.log(usuario);
+      console.log(this.form.value.roles);
       this.usuarioService
         .updateUsuario(usuario.id!, usuario)
-        .subscribe((data) => {
-          this.usuario = data;
-          alert('Se actualizo con exito');
-          this.router.navigate(['usuario']);
+        .subscribe({
+          next:(data) => {
+            this.usuario = data;
+            alert('Se actualizo con exito');
+            this.router.navigate(['usuario']);
+          },
+          error: (error) => { console.log(`Ocurrió un error al actualizar el usuario ${error.status}`); },
+          complete: () => { }
         });
     } else {
       alert('Debe completar todos los campos');

@@ -29,16 +29,22 @@ export class UsuarioComponent {
   usuarios: Usuario[] = [];
   ngOnInit() {
     // this.usuarios = this.usuarioService.listar();
-    this.usuarioService.listar()
-    .subscribe((data: Usuario[]) => {
-      this.usuarios = data.filter((usuario: Usuario) => usuario.status);
+    this.usuarioService.listar().subscribe({
+      next: (data: Usuario[]) => {
+        this.usuarios = data.filter((usuario: Usuario) => usuario.status);
+      },
+      error: (error) => { console.log(`Ocurrió un error al traer los usuarios ${error.status}`); },
+      complete: () => { }
     });
   }
   delete(id: number) {
-    this.usuarioService.eliminar(id)
-    .subscribe((data: Usuario[]) => {
-      this.usuarios = data.filter((usuario: Usuario) => usuario.status);
-    });
+    this.usuarioService.eliminar(id).subscribe({ 
+      next: (data: Usuario[]) => {
+        this.usuarios = data.filter((usuario: Usuario) => usuario.status);
+      },
+      error: (error) => { console.log(`Ocurrió un error al eliminar el usuario ${error.status}`); },
+      complete: () => { }      
+  });
   }
   onUsuarioGuardado(usuario: Usuario) {
     this.usuarios.push(usuario);
