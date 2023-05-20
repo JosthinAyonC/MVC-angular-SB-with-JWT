@@ -1,5 +1,5 @@
 <div class="container">
-  <button class="btn btn-info m-2"  data-bs-toggle="modal" data-bs-target="#modal-nuevoUsuario">Agregar nuevo <i class="bi bi-person-add"></i></button>
+  <button *ngIf="isAdmin" class="btn btn-info m-2"  data-bs-toggle="modal" data-bs-target="#modal-nuevoUsuario">Agregar nuevo <i class="bi bi-person-add"></i></button>
   <table class="table">
     <thead>
       <tr>
@@ -9,7 +9,7 @@
         <th scope="col">Correo</th>
         <th scope="col">Roles</th>
         <th scope="col">Estado</th>
-        <th scope="col">Acciones</th>
+        <th scope="col" *ngIf="isAdmin">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -20,8 +20,10 @@
         <td>{{ usuario.email }}</td>
         <td *ngFor="let rol of usuario.roles">{{ rol.name == "ROLE_MODERATOR"? "Moderador":(rol.name == "ROLE_USER"?"Usuario":"Administrador") }}</td>
         <td>{{ usuario.status == "A"? "Activo" : "Inactivo" }}</td>
-        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirmacion" (click)="obtenerUsuario(usuario)"><i class="bi bi-trash-fill"></i></button>
-        <a class="btn btn-secondary" (click)="obtenerUsuarioId(usuario)"><i class="bi bi-person-fill-gear"></i></a></td>
+        <td *ngIf="isAdmin">
+        <a class="btn btn-secondary" (click)="obtenerUsuarioId(usuario)"><i class="bi bi-pencil-fill"></i></a>
+        <a class="btn btn-danger"  (click)="obtenerUsuario(usuario)"><i class="bi bi-trash-fill"></i></a>
+      </td>
       </tr>
     </tbody>
   </table>

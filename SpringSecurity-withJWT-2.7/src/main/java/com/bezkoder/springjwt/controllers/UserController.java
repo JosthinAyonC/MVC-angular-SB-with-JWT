@@ -27,31 +27,31 @@ public class UserController {
     private UserService usuarioService;
 
     @GetMapping
-    // @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<User> listar(){
         return usuarioService.listarTodos();
     }
 
     @GetMapping("/roles")
-    // @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Role> getRoles(){
         return usuarioService.listarAllRoles();
     } 
     
     @GetMapping("/{id}")
-    // @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public User getUsuarioById(@PathVariable("id") Long id ){
         return usuarioService.listarById(id);
     } 
 
     @PostMapping
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> insertar(@RequestBody User usuarioBody){
         return usuarioService.insertar(usuarioBody);
     }
     
     @PutMapping("/editar/{id}")
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public User actualizar(@PathVariable Long id, @RequestBody User usuarioBody){
         
         usuarioBody.setId(id);
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @PutMapping("/eliminar/{id}")
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> eliminar(@PathVariable Long id){
         return usuarioService.eliminar(id);
     } 

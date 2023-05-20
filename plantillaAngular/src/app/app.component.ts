@@ -8,14 +8,6 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'plantillaAngular';
-
+  isUserLoggedIn: boolean = false;
   constructor(private router:Router) { }
-
-  Listar(){
-    this.router.navigate(["usuario"]);
-  }
-
-  Nuevo(){
-    this.router.navigate(["usuario","nuevo"]);
-  }
 }

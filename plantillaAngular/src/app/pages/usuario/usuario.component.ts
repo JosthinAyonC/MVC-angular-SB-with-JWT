@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TokenService } from 'src/app/Service/token.service';
 import { UsuarioServiceService } from 'src/app/Service/usuario-service.service';
 import { Role } from 'src/app/models/Role.model';
 import { Usuario } from 'src/app/models/Usuario.model';
@@ -15,8 +16,13 @@ export class UsuarioComponent {
   usuarioSeleccionado!: Usuario;
   usuarioIdSeleccionado!: number;
   role?: Role;
+  isAdmin: boolean = false;
   // usuarios: Observable<Usuario[]> = new Observable<Usuario[]>();
-  constructor(private usuarioService: UsuarioServiceService, private router:Router) { }
+  constructor(
+    private usuarioService: UsuarioServiceService, 
+    private router:Router,
+    private tokenService: TokenService
+    ) { }
   
   //funcion lista para ser exportada
   obtenerUsuario(usuario: Usuario){
@@ -28,7 +34,7 @@ export class UsuarioComponent {
   }
   usuarios: Usuario[] = [];
   ngOnInit() {
-    // this.usuarios = this.usuarioService.listar();
+    this.isAdmin = this.tokenService.isAdmin();
     this.usuarioService.listar().subscribe({
       next: (data: Usuario[]) => {
         this.usuarios = data.filter((usuario: Usuario) => usuario.status);
