@@ -6,15 +6,20 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { EditarUsuarioComponent } from './pages/usuario/editar-usuario/editar-usuario.component';
+import { AuthGuard } from 'src/AuthGuard';
+import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent ,
+    canActivate: [AuthGuard]
   },
   {
     path: 'usuario',
     component: UsuarioComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'usuario/editar',
@@ -27,7 +32,15 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
-  }  
+  },  
+  {
+    path: 'unauthorize',
+    component: UnauthorizeComponent,
+  },  
+  {
+    path: '**',
+    component: PageNotFoundComponent,
+  },  
 ];
 
 @NgModule({

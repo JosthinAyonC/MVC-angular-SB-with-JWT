@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Service/auth.service';
 import { TokenService } from 'src/app/Service/token.service';
 import { Usuario } from 'src/app/models/Usuario.model';
@@ -13,12 +14,14 @@ export class NavbarComponent {
   isLogged : boolean = false;
   usuarioLogged? :Usuario |null;
   isAdmin: boolean = false;
+  isMod: boolean = false;
 
-  constructor(private tokenService:TokenService, private authService: AuthService) { }
+  constructor(private tokenService:TokenService, private authService: AuthService, private router: Router) { }
 
   
   ngOnInit(){
-    this.isAdmin = this.tokenService.isAdmin();
+    this.isAdmin = this.tokenService.isAdmin();//Cambia la variable para usarla en el html
+    this.isMod = this.tokenService.isMod();//Cambia la variable para usarla en el html
     this.isLogged = this.tokenService.islogged();
     this.usuarioLogged = this.authService.traerPersonaLogeada();
   }

@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Usuario } from "../models/Usuario.model";
 
 const TOKEN_KEY = 'auth-token';
 
@@ -18,8 +17,6 @@ export class TokenService {
     public getToken(): string | null {
         return localStorage.getItem(TOKEN_KEY);
     }
-
-
 
     logout() {
         localStorage.removeItem(TOKEN_KEY);

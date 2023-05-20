@@ -9,7 +9,7 @@ import { Usuario } from 'src/app/models/Usuario.model';
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.css']
+  styleUrls: ['./usuario.component.css'],
 })
 export class UsuarioComponent {
   //usuario que va a ser obtenido para extraer el id cuando presione el boton eliminar/editar
@@ -19,38 +19,46 @@ export class UsuarioComponent {
   isAdmin: boolean = false;
   // usuarios: Observable<Usuario[]> = new Observable<Usuario[]>();
   constructor(
-    private usuarioService: UsuarioServiceService, 
-    private router:Router,
+    private usuarioService: UsuarioServiceService,
+    private router: Router,
     private tokenService: TokenService
-    ) { }
-  
+  ) {}
+
   //funcion lista para ser exportada
-  obtenerUsuario(usuario: Usuario){
+  obtenerUsuario(usuario: Usuario) {
     this.usuarioSeleccionado = usuario;
   }
-  obtenerUsuarioId(usuario: Usuario){    
+  obtenerUsuarioId(usuario: Usuario) {
     localStorage.setItem('idUsuario', usuario.id!.toString());
     this.router.navigate(['usuario/editar']);
   }
   usuarios: Usuario[] = [];
   ngOnInit() {
-    this.isAdmin = this.tokenService.isAdmin();
-    this.usuarioService.listar().subscribe({
-      next: (data: Usuario[]) => {
-        this.usuarios = data.filter((usuario: Usuario) => usuario.status);
-      },
-      error: (error) => { console.log(`Ocurrió un error al traer los usuarios ${error.status}`); },
-      complete: () => { }
-    });
+    if (this.tokenService.isAdmin() || this.tokenService.isMod()) {
+      this.isAdmin = this.tokenService.isAdmin(); //Cambia el valor de admin para usarlo en el html
+      this.usuarioService.listar().subscribe({
+        next: (data: Usuario[]) => {
+          this.usuarios = data.filter((usuario: Usuario) => usuario.status);
+        },
+        error: (error) => {
+          console.log(`Ocurrió un error al traer los usuarios ${error.status}`);
+        },
+        complete: () => {},
+      });
+    }else{
+      this.router.navigate(['/unauthorize']);
+    }
   }
   delete(id: number) {
-    this.usuarioService.eliminar(id).subscribe({ 
+    this.usuarioService.eliminar(id).subscribe({
       next: (data: Usuario[]) => {
         this.usuarios = data.filter((usuario: Usuario) => usuario.status);
       },
-      error: (error) => { console.log(`Ocurrió un error al eliminar el usuario ${error.status}`); },
-      complete: () => { }      
-  });
+      error: (error) => {
+        console.log(`Ocurrió un error al eliminar el usuario ${error.status}`);
+      },
+      complete: () => {},
+    });
   }
   onUsuarioGuardado(usuario: Usuario) {
     this.usuarios.push(usuario);

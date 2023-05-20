@@ -39,6 +39,7 @@ export class LoginComponent {
         },
         error: (error) => { alert(`error ${error.status}: Usuario o contrasnia incorrectas`); },
         complete: () => {
+          sessionStorage.setItem('isLoggedIn', 'true');
           window.location.replace('/');
         }
       });

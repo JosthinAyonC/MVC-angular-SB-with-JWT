@@ -13,6 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarUsuarioComponent } from './pages/usuario/editar-usuario/editar-usuario.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { RegisterComponent } from './pages/register/register.component';
     ModalConfirmComponent,
     EditarUsuarioComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    PageNotFoundComponent,
+    UnauthorizeComponent
   ],
   imports: [
     BrowserModule,
