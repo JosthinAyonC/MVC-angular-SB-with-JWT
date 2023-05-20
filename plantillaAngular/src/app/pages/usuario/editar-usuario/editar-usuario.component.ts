@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TokenService } from 'src/app/Service/token.service';
 import { UsuarioServiceService } from 'src/app/Service/usuario-service.service';
 import { Role } from 'src/app/models/Role.model';
 import { Usuario } from 'src/app/models/Usuario.model';
@@ -20,47 +21,51 @@ export class EditarUsuarioComponent {
   constructor(
     private usuarioService: UsuarioServiceService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenService
   ) { }
 
 
   readonlyMode: boolean = true;
 
-  ngOnInit() {
-    //Hacer valido el formulario
-    this.form = this.formBuilder.group({
-      username: ['', Validators.required],
-      email: ['', Validators.required],
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      status: ['', Validators.required],
-      roles: ['', Validators.required],
-    });
-    //Traer los roles para el select
-    this.usuarioService.traerRoles().subscribe({
-      next: (data: Role[]) => {
-        this.roles = data;
-      },
-      error: (error) => { console.log(`Ocurrió un error al traer los roles ${error.status}`); },
-      complete: () => { }
-    });
-    //Obtener el usuario y setear los valores iniciales
-    this.usuarioService.obtenerUnUsuario(+this.id!).subscribe({
-      next: (data) => {
-        this.usuario = data;
-      },
-      error: (error) => { console.log(`Ocurrió un error al traer el usuario ${error.status}`); },
-      complete: () => {
-        this.form.patchValue({
-          username: this.usuario.username,
-          email: this.usuario.email,
-          firstname: this.usuario.firstname,
-          lastname: this.usuario.lastname,
-          status: this.usuario.status,
-          roles: this.toJson(this.usuario.roles?.[0]),
-        });
-      }
-    });
+  ngOnInit() {    
+    if (!this.tokenService.isAdmin() || !this.tokenService.isMod()) {
+      this.form = this.formBuilder.group({
+        username: ['', Validators.required],
+        email: ['', Validators.required],
+        firstname: ['', Validators.required],
+        lastname: ['', Validators.required],
+        status: ['', Validators.required],
+        roles: ['', Validators.required],
+      });
+      //Traer los roles para el select
+      this.usuarioService.traerRoles().subscribe({
+        next: (data: Role[]) => {
+          this.roles = data;
+        },
+        error: (error) => { console.log(`Ocurrió un error al traer los roles ${error.status}`); },
+        complete: () => { }
+      });
+      //Obtener el usuario y setear los valores iniciales
+      this.usuarioService.obtenerUnUsuario(+this.id!).subscribe({
+        next: (data) => {
+          this.usuario = data;
+        },
+        error: (error) => { console.log(`Ocurrió un error al traer el usuario ${error.status}`); },
+        complete: () => {
+          this.form.patchValue({
+            username: this.usuario.username,
+            email: this.usuario.email,
+            firstname: this.usuario.firstname,
+            lastname: this.usuario.lastname,
+            status: this.usuario.status,
+            roles: this.toJson(this.usuario.roles?.[0]),
+          });
+        }
+      });
+    }else{
+      this.router.navigate(['/unauthorize']);
+    }
   }
 
   volver() {
@@ -88,7 +93,9 @@ export class EditarUsuarioComponent {
             this.router.navigate(['usuario']);
           },
           error: (error) => { console.log(`Ocurrió un error al actualizar el usuario ${error.status}`); },
-          complete: () => { }
+          complete: () => {
+            localStorage.removeItem('idUsuario');
+           }
         });
     } else {
       alert('Debe completar todos los campos');

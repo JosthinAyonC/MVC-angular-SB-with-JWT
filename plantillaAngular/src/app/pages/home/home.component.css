@@ -1,0 +1,41 @@
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .banner {
+    width: 50%;
+    padding: 20px;
+  }
+
+  .banner-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+  }
+
+  .content {
+    width: 50%;
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 24px;
+    color: #555555;
+    margin-bottom: 10px;
+  }
+
+  .paragraph {
+    font-size: 16px;
+    color: #777777;
+    margin-bottom: 20px;
+  }

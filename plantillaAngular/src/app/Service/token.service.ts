@@ -21,6 +21,7 @@ export class TokenService {
     logout() {
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem("logged-persona");
+        sessionStorage.removeItem("isLoggedIn");
     }
 
     public islogged(): boolean {
