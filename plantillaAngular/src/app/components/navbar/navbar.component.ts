@@ -12,7 +12,7 @@ import { Usuario } from 'src/app/models/Usuario.model';
 export class NavbarComponent {
   @Input() isLoggedIn!: boolean ;
   isLogged : boolean = false;
-  usuarioLogged? :Usuario |null;
+  usuarioLogged! :Usuario |null ;
   isAdmin: boolean = false;
   isMod: boolean = false;
 
@@ -21,14 +21,16 @@ export class NavbarComponent {
   
   ngOnInit(){
     this.isAdmin = this.tokenService.isAdmin();//Cambia la variable para usarla en el html
-    this.isMod = this.tokenService.isMod();//Cambia la variable para usarla en el html
+    this.isMod = this.tokenService.isMod();
     this.isLogged = this.tokenService.islogged();
-    this.usuarioLogged = this.authService.traerPersonaLogeada();
+    this.usuarioLogged = JSON.parse(this.authService.traerPersonaLogeada());
+    console.log(this.usuarioLogged);
   }
 
   logout() {
     this.tokenService.logout();
     window.location.reload();
+    this.router.navigate(['/login']);
   }
 
 }

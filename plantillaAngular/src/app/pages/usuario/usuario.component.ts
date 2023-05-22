@@ -34,7 +34,7 @@ export class UsuarioComponent {
   }
   usuarios: Usuario[] = [];
   ngOnInit() {
-    if (!this.tokenService.isAdmin() || !this.tokenService.isMod()) {
+    if (this.tokenService.isAdmin() || this.tokenService.isMod()) {
       this.isAdmin = this.tokenService.isAdmin(); //Cambia el valor de admin para usarlo en el html
       this.usuarioService.listar().subscribe({
         next: (data: Usuario[]) => {

@@ -22,7 +22,7 @@
         <td>{{ usuario.status == "A"? "Activo" : "Inactivo" }}</td>
         <td *ngIf="isAdmin">
         <a class="btn btn-secondary" (click)="obtenerUsuarioId(usuario)"><i class="bi bi-pencil-fill"></i></a>
-        <a class="btn btn-danger"  (click)="obtenerUsuario(usuario)"><i class="bi bi-trash-fill"></i></a>
+        <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirmacion" (click)="obtenerUsuario(usuario)"><i class="bi bi-trash-fill"></i></a>
       </td>
       </tr>
     </tbody>

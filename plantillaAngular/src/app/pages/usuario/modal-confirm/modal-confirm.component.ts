@@ -12,6 +12,6 @@ export class ModalConfirmComponent {
   @Output() eliminarUsuario = new EventEmitter<number>();
 
   eliminarUsuarioConfirmado() {
-    this.eliminarUsuario.emit(this.idUsuarioAEliminar.id);    
+    this.eliminarUsuario.emit(this.idUsuarioAEliminar.id);
   }
 }
