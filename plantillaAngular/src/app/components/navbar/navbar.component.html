@@ -1,5 +1,5 @@
-<header class="p-3 mb-3 border-bottom fixed-top" style="background-color: gray;">
-  <div class="container">
+<nav class="p-3 mb-3 fixed-top" style="background-color: gray;">
+  <div class="container-fluid">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <a routerLink="/" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
         Application
@@ -22,8 +22,8 @@
           {{usuarioLogged!.firstname}} {{usuarioLogged!.lastname}} <i class="bi bi-person-check"></i>
         </a>
         <ul class="dropdown-menu text-small" style="background-color: gray;">
-          <li><a class="dropdown-item" href="#">Configuración <i class="bi bi-person-gear"></i></a></li>
-          <li><a class="dropdown-item" href="#">Perfil <i class="bi bi-person-circle"></i></a></li>
+          <li><a class="dropdown-item" routerLink="/">Configuración <i class="bi bi-person-gear"></i></a></li>
+          <li><a class="dropdown-item" routerLink="/usuario/myprofile">Perfil <i class="bi bi-person-circle"></i></a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -36,4 +36,4 @@
       </div>
     </div>
   </div>
-</header>
+</nav>

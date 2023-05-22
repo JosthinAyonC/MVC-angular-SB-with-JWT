@@ -15,6 +15,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ProfileComponent } from './pages/usuario/profile/profile.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component'
     LoginComponent,
     RegisterComponent,
     PageNotFoundComponent,
-    UnauthorizeComponent
+    UnauthorizeComponent,
+    FooterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

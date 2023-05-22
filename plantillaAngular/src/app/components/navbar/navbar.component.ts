@@ -10,7 +10,6 @@ import { Usuario } from 'src/app/models/Usuario.model';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  @Input() isLoggedIn!: boolean ;
   isLogged : boolean = false;
   usuarioLogged! :Usuario |null ;
   isAdmin: boolean = false;
@@ -24,7 +23,6 @@ export class NavbarComponent {
     this.isMod = this.tokenService.isMod();
     this.isLogged = this.tokenService.islogged();
     this.usuarioLogged = JSON.parse(this.authService.traerPersonaLogeada());
-    console.log(this.usuarioLogged);
   }
 
   logout() {

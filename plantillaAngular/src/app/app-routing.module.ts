@@ -9,6 +9,7 @@ import { EditarUsuarioComponent } from './pages/usuario/editar-usuario/editar-us
 import { AuthGuard } from 'src/AuthGuard';
 import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { ProfileComponent } from './pages/usuario/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,13 @@ const routes: Routes = [
   {
     path: 'usuario/editar',
     component: EditarUsuarioComponent,
+    canActivate: [AuthGuard],
+
+  },
+  {
+    path: 'usuario/myprofile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',

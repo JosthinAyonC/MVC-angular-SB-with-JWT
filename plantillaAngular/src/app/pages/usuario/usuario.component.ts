@@ -42,6 +42,8 @@ export class UsuarioComponent {
         },
         error: (error) => {
           console.log(`Ocurrió un error al traer los usuarios ${error.status}`);
+          window.location.replace('/login');
+          this.tokenService.logout();
         },
         complete: () => {},
       });
