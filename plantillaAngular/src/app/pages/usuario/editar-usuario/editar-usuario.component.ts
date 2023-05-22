@@ -69,6 +69,7 @@ export class EditarUsuarioComponent {
   }
 
   volver() {
+    localStorage.removeItem('idUsuario');//a mejorar
     this.router.navigate(['usuario']);
   }
   toJson(value: any) {

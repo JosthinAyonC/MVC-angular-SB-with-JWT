@@ -17,6 +17,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProfileComponent } from './pages/usuario/profile/profile.component';
+import { ChangepassComponent } from './pages/usuario/changepass/changepass.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ProfileComponent } from './pages/usuario/profile/profile.component';
     PageNotFoundComponent,
     UnauthorizeComponent,
     FooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    ChangepassComponent
   ],
   imports: [
     BrowserModule,
