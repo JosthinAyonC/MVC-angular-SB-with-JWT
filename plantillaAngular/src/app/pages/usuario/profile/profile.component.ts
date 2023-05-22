@@ -15,7 +15,6 @@ export class ProfileComponent {
 
   ngOnInit(){
     this.usuarioLogged = JSON.parse(this.authService.traerPersonaLogeada());
-    console.log(this.usuarioLogged);
   }
 
   toString(objeto: any){

@@ -37,4 +37,8 @@ export class UsuarioServiceService {
   traerRoles(){
     return this.http.get<Role[]>(`${baseUrl}/usuario/roles`,  {headers});
   }
+
+  actualizarClave(id: number, lastpassword: string, newpassword: string){
+    return this.http.put<Usuario>(`${baseUrl}/usuario/changepass/${id}`, {lastpassword, newpassword},  {headers});
+  }
 }

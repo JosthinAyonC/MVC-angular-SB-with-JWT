@@ -13,7 +13,7 @@
           <div class="card mb-3">
 
             <div class="card-body">
-                  <form   class="row g-3 needs-validation">
+                  <form (ngSubmit)="actualizarClave()" [formGroup]="form"  class="row g-3 needs-validation">
 
                 <div class="col-12">
                   <label for="yourlastpassword" class="form-label">Clave anterior</label>

@@ -9,25 +9,25 @@
       <div class="modal-body">
         <div class="container">
           <form (ngSubmit)="guardar()" [formGroup]="form">
-            <div class="mb-3">
-              <label for="input-nombre" class="form-label">Nombre</label>
+            <div class="form-floating mb-3">
               <input type="text" class="form-control" formControlName="firstname" id="input-nombre" placeholder="Nombre" required>
+              <label for="floatingInput" >Nombre</label>
             </div>
-            <div class="mb-3">
-              <label for="input-apellido" class="form-label">Apellido</label>
+            <div class="form-floating mb-3">
               <input type="text" class="form-control" formControlName="lastname" id="input-apellido" placeholder="Apellido" required>
+              <label for="input-apellido" class="form-label">Apellido</label>
             </div>
-            <div class="mb-3">
-              <label for="input-username" class="form-label">Username</label>
+            <div class="form-floating mb-3">
               <input type="text" class="form-control" formControlName="username" id="input-apellido" placeholder="Username" required>
+              <label for="input-username" class="form-label">Username</label>
             </div>
-            <div class="mb-3">
-              <label for="input-email" class="form-label">Email address</label>
+            <div class="form-floating mb-3">
               <input type="email" class="form-control" formControlName="email" id="input-email" placeholder="name@example.com" required>
+              <label for="input-email" class="form-label">Email address</label>
             </div>
-            <div class="mb-3">
-              <label for="input-clave" class="form-label">Clave</label>
+            <div class="form-floating mb-3">
               <input type="password" class="form-control" formControlName="password" id="input-clave" placeholder="clave" required>
+              <label for="input-clave" class="form-label">Clave</label>
             </div>
             <div class="mb-3">
               <label for="input-roles" class="form-label">Roles</label>
