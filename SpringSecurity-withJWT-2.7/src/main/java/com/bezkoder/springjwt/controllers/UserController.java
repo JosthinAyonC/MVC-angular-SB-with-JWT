@@ -1,7 +1,7 @@
 package com.bezkoder.springjwt.controllers;
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +57,11 @@ public class UserController {
         usuarioBody.setId(id);
         
         return usuarioService.actualizar( usuarioBody);
+    }
+
+    @PutMapping("/changepass/{id}")
+    public ResponseEntity<?> editarContraseniaPut(@PathVariable("id") Long id, @RequestBody Map<String, String> data) {
+        return usuarioService.editarContrasenia(id, data);
     }
 
     @PutMapping("/eliminar/{id}")
