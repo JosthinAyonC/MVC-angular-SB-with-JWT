@@ -29,7 +29,7 @@ export class EditarUsuarioComponent {
   readonlyMode: boolean = true;
 
   ngOnInit() {    
-    if (!this.tokenService.isAdmin() || !this.tokenService.isMod()) {
+    if (this.tokenService.isAdmin()) {
       this.form = this.formBuilder.group({
         username: ['', Validators.required],
         email: ['', Validators.required],

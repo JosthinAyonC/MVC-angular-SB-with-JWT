@@ -36,7 +36,6 @@ export class ChangepassComponent {
   actualizarClave(){
     if (this.form.valid){
       if (this.form.value.newpassword == this.form.value.cnewpassword){
-        console.log(this.id, this.form.value);
         this.usuarioService.actualizarClave(this.id, this.form.value.lastpassword, this.form.value.newpassword).subscribe({
           next:() => {
             alert('Contraseña actualizada');
