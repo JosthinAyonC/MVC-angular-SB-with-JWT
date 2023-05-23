@@ -62,7 +62,9 @@ export class NuevoUsuarioComponent implements OnInit {
         error:()=>{
           alert('Ocurrió un error en el servidor');
         },
-        complete:() => {}
+        complete:() => {
+          this.form.reset();
+        }
       });
     } else {
       alert('Debe completar todos los campos');

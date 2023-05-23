@@ -18,6 +18,7 @@ import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component'
 import { FooterComponent } from './components/footer/footer.component';
 import { ProfileComponent } from './pages/usuario/profile/profile.component';
 import { ChangepassComponent } from './pages/usuario/changepass/changepass.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import { ChangepassComponent } from './pages/usuario/changepass/changepass.compo
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

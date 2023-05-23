@@ -17,6 +17,7 @@ export class UsuarioComponent {
   usuarioIdSeleccionado!: number;
   role?: Role;
   isAdmin: boolean = false;
+  page!: number ;
   // usuarios: Observable<Usuario[]> = new Observable<Usuario[]>();
   constructor(
     private usuarioService: UsuarioServiceService,
