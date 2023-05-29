@@ -1,8 +1,5 @@
 package com.bezkoder.springjwt.controllers;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,45 +25,44 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<User> listar(){
+    public ResponseEntity<?> listar(){
         return usuarioService.listarTodos();
     }
 
     @GetMapping("/roles")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<Role> getRoles(){
+    public ResponseEntity<?> getRoles(){
         return usuarioService.listarAllRoles();
     } 
     
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public User getUsuarioById(@PathVariable("id") Long id ){
+    public ResponseEntity<?> getUsuarioById(@PathVariable("id") Long id ){
         return usuarioService.listarById(id);
     } 
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> insertar(@RequestBody User usuarioBody){
+    public ResponseEntity<?>  insertar(@RequestBody User usuarioBody){
         return usuarioService.insertar(usuarioBody);
+    }
+
+    @GetMapping("/roles/{roles}")
+    @PreAuthorize("hasRole('VIGILANTE') or hasRole('ADMIN')")
+    public ResponseEntity<?> listarPorPorRoles(@PathVariable("roles") String roles){
+        return usuarioService.listarUsuariosPorRoles(roles);
     }
     
     @PutMapping("/editar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public User actualizar(@PathVariable Long id, @RequestBody User usuarioBody){
-        
+    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody User usuarioBody){
         usuarioBody.setId(id);
-        
-        return usuarioService.actualizar( usuarioBody);
-    }
-
-    @PutMapping("/changepass/{id}")
-    public ResponseEntity<?> editarContraseniaPut(@PathVariable("id") Long id, @RequestBody Map<String, String> data) {
-        return usuarioService.editarContrasenia(id, data);
+        return usuarioService.actualizar(usuarioBody);
     }
 
     @PutMapping("/eliminar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<User> eliminar(@PathVariable Long id){
+    public ResponseEntity<?> eliminar(@PathVariable Long id){
         return usuarioService.eliminar(id);
     } 
 }

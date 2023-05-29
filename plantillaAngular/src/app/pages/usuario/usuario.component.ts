@@ -64,6 +64,6 @@ export class UsuarioComponent {
     });
   }
   onUsuarioGuardado(usuario: Usuario) {
-    this.usuarios.push(usuario);
+    this.usuarios.unshift(usuario);
   }
 }

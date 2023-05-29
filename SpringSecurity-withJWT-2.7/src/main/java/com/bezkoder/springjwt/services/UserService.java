@@ -1,7 +1,6 @@
 package com.bezkoder.springjwt.services;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,39 +26,60 @@ public class UserService {
     @Autowired
     PasswordEncoder encoder;
 
-    public ResponseEntity<?>  insertar(User user) {
-        if(camposUnicosYnoNulos(user).getStatusCode().is4xxClientError()){
-            return camposUnicosYnoNulos(user);
+    public ResponseEntity<?>  insertar(User userNew) {
+        if(camposUnicosYnoNulos(userNew).getStatusCode().is4xxClientError()){
+            return camposUnicosYnoNulos(userNew);
         }
-        user.setPassword(encoder.encode(user.getPassword()));
-        usuarioRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse("Usuario registrado satisfactoriamente!"));
+        userNew.setPassword(encoder.encode(userNew.getPassword()));
+        usuarioRepository.save(userNew);
+        return ResponseEntity.ok(userNew);
     }
 
-    public User actualizar(User user) {
+    public ResponseEntity<?> actualizar(User user) {
         Optional<User> optionalUsuario = usuarioRepository.findById(user.getId());
         if (optionalUsuario.isEmpty()) {
-            return null;
+          return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Error: El usuario no ha sido encontrado"));
         }
         User usuarioEditado = optionalUsuario.get();
         copiarCamposNoNulos(user, usuarioEditado);
-        return usuarioRepository.save(usuarioEditado);
+        return ResponseEntity.ok(usuarioRepository.save(usuarioEditado));
     }
 
-    public List<User> listarTodos() {
-        return usuarioRepository.findByEstado();
-    }
-    public List<Role> listarAllRoles() {
-        return roleRepository.findAllRoles();
+    public ResponseEntity<?>  listarTodos() {
+        List<User> usuarios = usuarioRepository.findByEstado();
+        return ResponseEntity.ok(usuarios);
     }
 
-    public User listarById(Long id) {
-        return usuarioRepository.findById(id).get();
+    public ResponseEntity<?> listarAllRoles() {
+        List<Role> roles = roleRepository.findAllRoles();
+        return ResponseEntity.ok(roles);
     }
 
-    public List<User> eliminar(Long id) {
+    public ResponseEntity<?> listarById(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Error: El usuario no ha sido encontrado"));
+        }
+        return ResponseEntity.ok(usuarioRepository.findById(id).get());
+    }
+
+    public ResponseEntity<?> eliminar(Long id) {
         usuarioRepository.deleteById(id);
-        return usuarioRepository.findByEstado();
+        List<User> usuarios = usuarioRepository.findByEstado();
+        return ResponseEntity.ok(usuarios);
+    }
+    
+    public ResponseEntity<?> listarUsuariosPorRoles(String roles) {
+        List<User> usuarios = usuarioRepository.findByRoles(roles);
+        if (usuarios.isEmpty()) {
+            return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Error: No se encontraron usuarios con el rol: " + roles));
+        }
+        return ResponseEntity.ok(usuarios);
     }
 
     //en la ruta /api/auth/signup va a guardar nuevo usuario
@@ -119,29 +139,7 @@ public class UserService {
             .badRequest()
             .body(new MessageResponse("Error: Campos vacios!"));
         }
-        return ResponseEntity.ok(new MessageResponse("Usuario registrado satisfactoriamente!"));
+        return ResponseEntity.ok(user);
     }
-
-    //metodo para cambiar la clave
-	public ResponseEntity<?> editarContrasenia(Long id, Map<String, String> data) {
-		Optional<User> usuarioOptional = usuarioRepository.findById(id);
-        if (usuarioOptional.isPresent()) {
-            User usuario = usuarioOptional.get();
-            String clave = data.get("lastpassword");
-            String claveNueva = data.get("newpassword");
-            if (encoder.matches(clave, usuario.getPassword())) {
-                usuario.setPassword(encoder.encode(claveNueva));
-                usuarioRepository.save(usuario);
-                return ResponseEntity.ok(new MessageResponse("Contraseña actualizada satisfactoriamente!"));
-            } else {
-                return ResponseEntity
-                .badRequest()
-                .body(new MessageResponse("Error: Contraseña incorrecta!"));
-            }
-        }
-        return ResponseEntity.badRequest().body(new MessageResponse("Error: Usuario no encontrado!"));
-	}
-
-    
 
 }

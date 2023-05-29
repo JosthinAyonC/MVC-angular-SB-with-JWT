@@ -19,11 +19,10 @@ export class NuevoUsuarioComponent implements OnInit {
     private usuarioService: UsuarioServiceService,
     private formBuilder: FormBuilder
   ) {}
-  
+
   toJson(value: any) {
     return JSON.stringify(value);
   }
-  
   
   ngOnInit() {
     this.usuarioService.traerRoles().subscribe({
@@ -55,12 +54,12 @@ export class NuevoUsuarioComponent implements OnInit {
         roles: [JSON.parse(this.form.value.roles)] ,
       };
       this.usuarioService.crearNuevoUsuario(usuario).subscribe({
-        next:() => {
-          this.usuarioGuardado.emit(usuario);
+        next:(data) => {
+          this.usuarioGuardado.emit(data);
           alert('Usuario creado');
         },
-        error:()=>{
-          alert('Ocurrió un error en el servidor');
+        error:(error)=>{
+          alert(error.error.message);
         },
         complete:() => {
           this.form.reset();
@@ -69,8 +68,5 @@ export class NuevoUsuarioComponent implements OnInit {
     } else {
       alert('Debe completar todos los campos');
     }
-  }
-  emitirEventoUsuarioGuardado(usuario: Usuario) {
-    this.usuarioGuardado.emit(usuario);
   }
 }
