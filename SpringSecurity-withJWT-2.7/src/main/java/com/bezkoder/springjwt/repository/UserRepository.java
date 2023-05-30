@@ -3,6 +3,8 @@ package com.bezkoder.springjwt.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   public void deleteById(Long id);
 
   @Query("SELECT u FROM User u WHERE u.status != null ORDER BY u.id DESC")
-  public List<User> findByEstado();
+  Page<User> findByEstado(Pageable pageable);
 
   @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name = :roleName")
     List<User> findByRoles(@Param("roleName") String roleName);

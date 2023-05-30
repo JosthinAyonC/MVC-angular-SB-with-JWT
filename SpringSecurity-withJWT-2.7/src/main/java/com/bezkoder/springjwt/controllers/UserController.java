@@ -3,7 +3,9 @@ package com.bezkoder.springjwt.controllers;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.services.UserService;
 
@@ -27,9 +28,9 @@ public class UserController {
     private UserService usuarioService;
 
     @GetMapping
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> listar(){
-        return usuarioService.listarTodos();
+    // @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    public Page<User> listar(@PageableDefault(page=0, size = 8) Pageable pageable){
+        return usuarioService.listarTodos(pageable);
     }
 
     @GetMapping("/roles")
@@ -65,8 +66,8 @@ public class UserController {
 
     @PutMapping("/eliminar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> eliminar(@PathVariable Long id){
-        return usuarioService.eliminar(id);
+    public Page<User> eliminar(@PathVariable Long id, @PageableDefault(page=0, size = 8) Pageable pageable){
+        return usuarioService.eliminar(id, pageable);
     } 
 
     @PutMapping("/changepass/{id}")

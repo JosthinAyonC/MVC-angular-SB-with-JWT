@@ -16,8 +16,8 @@ export class UsuarioServiceService {
   constructor(private http: HttpClient) { }
 
 
-  listar() {
-    return this.http.get<Usuario[]>(`${baseUrl}/usuario`, {headers});
+  listar(page: number) {
+    return this.http.get<Usuario[]>(`${baseUrl}/usuario?page=${page}`, {headers});
   }
   eliminar(id: number) {
     return this.http.put<Usuario[]>(`${baseUrl}/usuario/eliminar/${id}`, null, {headers});

@@ -14,8 +14,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 5, currentPage: page };">
-        <th scope="row">{{ usuario.id }}</th>
+      <tr *ngFor="let usuario of usuarios">
+        <th scope="row">{{ usuario.id }} </th>
         <td>{{ usuario.firstname }} {{usuario.lastname }}</td>
         <td>{{ usuario.username }}</td>
         <td>{{ usuario.email }}</td>
@@ -28,9 +28,22 @@
           </div>
       </td>
       </tr>
+      <tr>
+        <td>
+          <button [disabled]="(page==0)" (click)="lastPage()" class="btn btn-info m-2"><i class="bi bi-chevron-double-left"></i></button>
+        </td>
+        <td >
+          <span  *ngFor="let pageSelected of totalPages; let i = index">
+
+            <button (click)="setpage(i)" class="btn btn-info m-2">{{i+1}}</button>
+          </span>
+        </td>
+        <td>
+          <button [disabled]="(page==this.totalPages?.length! - 1 )" (click)="nextPage()" class="btn btn-info m-2"><i class="bi bi-chevron-double-right"></i></button>
+        </td>
+      </tr>
     </tbody>
   </table>
-  <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
 
   <app-nuevo-usuario (usuarioGuardado)="onUsuarioGuardado($event)"></app-nuevo-usuario>
   
