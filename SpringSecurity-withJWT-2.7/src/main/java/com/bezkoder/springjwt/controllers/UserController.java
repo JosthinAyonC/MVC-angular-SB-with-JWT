@@ -1,6 +1,9 @@
 package com.bezkoder.springjwt.controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -65,4 +68,9 @@ public class UserController {
     public ResponseEntity<?> eliminar(@PathVariable Long id){
         return usuarioService.eliminar(id);
     } 
+
+    @PutMapping("/changepass/{id}")
+    public ResponseEntity<?> editarContraseniaPut(@PathVariable("id") Long id, @RequestBody Map<String, String> data) {
+        return usuarioService.editarContrasenia(id, data);
+    }
 }

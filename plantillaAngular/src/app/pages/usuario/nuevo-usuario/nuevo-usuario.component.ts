@@ -15,6 +15,7 @@ export class NuevoUsuarioComponent implements OnInit {
   form!: FormGroup;
   roles: Role[] = [];
 
+  
   constructor(
     private usuarioService: UsuarioServiceService,
     private formBuilder: FormBuilder

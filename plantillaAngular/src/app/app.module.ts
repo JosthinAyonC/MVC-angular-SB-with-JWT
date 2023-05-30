@@ -36,7 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     UnauthorizeComponent,
     FooterComponent,
     ProfileComponent,
-    ChangepassComponent
+    ChangepassComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +44,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -96,6 +97,26 @@ public class UserService {
         usuarioRepository.save(signUpRequest);
         
         return ResponseEntity.ok(new MessageResponse("Usuario registrado satisfactoriamente!"));
+    }
+
+    // metodo para cambiar la clave
+    public ResponseEntity<?> editarContrasenia(Long id, Map<String, String> data) {
+        Optional<User> usuarioOptional = usuarioRepository.findById(id);
+        if (usuarioOptional.isPresent()) {
+            User usuario = usuarioOptional.get();
+            String clave = data.get("lastpassword");
+            String claveNueva = data.get("newpassword");
+            if (encoder.matches(clave, usuario.getPassword())) {
+                usuario.setPassword(encoder.encode(claveNueva));
+                usuarioRepository.save(usuario);
+                return ResponseEntity.ok(new MessageResponse("Contraseña actualizada satisfactoriamente!"));
+            } else {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Error: Contraseña incorrecta!"));
+            }
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Usuario no encontrado!"));
     }
 
     //Metodo para copiar campos no nulos
