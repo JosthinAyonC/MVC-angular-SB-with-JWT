@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/Service/token.service';
 import { UsuarioServiceService } from 'src/app/Service/usuario-service.service';
 import { Role } from 'src/app/models/Role.model';
@@ -22,7 +23,8 @@ export class EditarUsuarioComponent {
     private usuarioService: UsuarioServiceService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private toastr: ToastrService
   ) { }
 
 
@@ -90,7 +92,7 @@ export class EditarUsuarioComponent {
         .subscribe({
           next:(data) => {
             this.usuario = data;
-            alert('Se actualizo con exito');
+            this.toastr.success('Se actualizo con exito', 'Listo!');
             this.router.navigate(['usuario']);
           },
           error: (error) => { console.log(`Ocurrió un error al actualizar el usuario ${error.status}`); },
@@ -99,7 +101,7 @@ export class EditarUsuarioComponent {
            }
         });
     } else {
-      alert('Debe completar todos los campos');
+      this.toastr.error('Debe completar todos los campos', 'Algo fallo:(');
     }
   }
 }

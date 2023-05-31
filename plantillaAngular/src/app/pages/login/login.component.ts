@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Service/auth.service';
 import { TokenService } from 'src/app/Service/token.service';
 import { LoginDto } from 'src/app/models/LoginDto.model';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-login',
@@ -17,8 +19,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private tokenService: TokenService,
-    private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {}
   
   ngOnInit() {
@@ -37,14 +39,16 @@ export class LoginComponent {
           this.tokenService.setToken(data.accessToken);
           this.authService.setPersonaLogeada(JSON.stringify(data));
         },
-        error: (error) => { alert(`error ${error.status}: Usuario o contrasnia incorrectas`); },
+        error: (error) => { 
+          this.toastr.error(error.error.message, 'Error al iniciar sesion');
+        },
         complete: () => {
           sessionStorage.setItem("isLoggedIn", 'true');
           window.location.replace('/');
         }
       });
     }else{
-      alert('Debe completar todos los campos');
+      this.toastr.error('Debe llenar todos los campos');
     }
   }
 }

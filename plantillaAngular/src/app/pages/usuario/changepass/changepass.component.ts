@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/Service/auth.service';
 import { TokenService } from 'src/app/Service/token.service';
 import { UsuarioServiceService } from 'src/app/Service/usuario-service.service';
@@ -21,7 +22,9 @@ export class ChangepassComponent {
     private authService: AuthService, 
     private router: Router,
     private usuarioService: UsuarioServiceService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit(){
     this.usuarioLogged = JSON.parse(this.authService.traerPersonaLogeada());
@@ -38,13 +41,13 @@ export class ChangepassComponent {
       if (this.form.value.newpassword == this.form.value.cnewpassword){
         this.usuarioService.actualizarClave(this.id, this.form.value.lastpassword, this.form.value.newpassword).subscribe({
           next:() => {
-            alert('Contraseña actualizada');
+            this.toastr.success('Enhorabuena', 'Contraseña actualizada');
           },
           error:(error) => {
             if (error.status === 400) {
-            alert(error.error.message);
+              this.toastr.error(error.error.message);
             } else {
-              alert('Ocurrió un error en el servidor');
+              this.toastr.error('Ocurrió un error en el servidor');
             }
           },
           complete:() => {
@@ -52,10 +55,10 @@ export class ChangepassComponent {
           }
         });
     }else{
-      alert('Las contraseñas no coinciden');
+      this.toastr.error('Vuelve a llenar los campos','Las contraseñas no coinciden');
     }
   }else{
-    alert('Complete los campos');
+    this.toastr.error('Complete los campos');
   }
 
 }

@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,7 +21,7 @@ import { UnauthorizeComponent } from './pages/unauthorize/unauthorize.component'
 import { FooterComponent } from './components/footer/footer.component';
 import { ProfileComponent } from './pages/usuario/profile/profile.component';
 import { ChangepassComponent } from './pages/usuario/changepass/changepass.component';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -44,7 +47,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule,
+    CommonModule,
+    BrowserAnimationsModule, 
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

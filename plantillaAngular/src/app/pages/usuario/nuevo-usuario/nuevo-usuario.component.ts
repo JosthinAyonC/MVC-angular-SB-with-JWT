@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { UsuarioServiceService } from 'src/app/Service/usuario-service.service';
 import { Role } from 'src/app/models/Role.model';
 import { Usuario } from 'src/app/models/Usuario.model';
@@ -18,7 +19,8 @@ export class NuevoUsuarioComponent implements OnInit {
   
   constructor(
     private usuarioService: UsuarioServiceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {}
 
   toJson(value: any) {
@@ -57,17 +59,17 @@ export class NuevoUsuarioComponent implements OnInit {
       this.usuarioService.crearNuevoUsuario(usuario).subscribe({
         next:(data) => {
           this.usuarioGuardado.emit(data);
-          alert('Usuario creado');
+          this.toastr.success('Usuario creado satisfactoriamente', 'Éxito');
         },
         error:(error)=>{
-          alert(error.error.message);
+          this.toastr.error(error.error.message);
         },
         complete:() => {
           this.form.reset();
         }
       });
     } else {
-      alert('Debe completar todos los campos');
+      this.toastr.error('Debe completar todos los campos', 'Oops campos nulos!');
     }
   }
 }

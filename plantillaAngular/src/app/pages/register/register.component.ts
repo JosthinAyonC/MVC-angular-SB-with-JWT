@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioServiceService } from 'src/app/Service/usuario-service.service';
 import { Usuario } from 'src/app/models/Usuario.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,8 @@ export class RegisterComponent {
   constructor(
     private usuarioService: UsuarioServiceService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {}
   
   ngOnInit() {
@@ -46,7 +48,7 @@ export class RegisterComponent {
           },
           error: (error) => {
             if (error.status === 400) {
-            alert(error.error.message);
+              this.toastr.info(error.error.message, 'Error');
             } else {
               alert('Ocurrió un error en el servidor');
             }
