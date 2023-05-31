@@ -50,7 +50,6 @@ export class UsuarioComponent {
     this.page = page;
     this.listarUsuarios();
   }
-  
 
   listarUsuarios() {
     this.usuarioService.listar(this.page).subscribe({
@@ -79,6 +78,15 @@ export class UsuarioComponent {
       },
       complete: () => { },
     });
+  }
+
+  obtenerUsuario(usuario: Usuario) {
+    this.usuarioSeleccionado = usuario;
+  }
+
+  obtenerUsuarioId(usuario: Usuario) {
+    localStorage.setItem('idUsuario', usuario.id!.toString());
+    this.router.navigate(['usuario/editar']);
   }
 
   onUsuarioGuardado(usuario: Usuario) {
