@@ -28,8 +28,9 @@ public class UserController {
     private UserService usuarioService;
 
     @GetMapping
-    // @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Page<User> listar(@PageableDefault(page=0, size = 8) Pageable pageable){
+    //PreAutorize le da los permisos para poder realizar las peticiones, por ej si es "ROLE_ADMIN" las personas con dicho rol, pueden hacer peticiones
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')") 
+    public ResponseEntity<?>  listar(@PageableDefault(page=0, size = 8) Pageable pageable){
         return usuarioService.listarTodos(pageable);
     }
 
@@ -66,7 +67,7 @@ public class UserController {
 
     @PutMapping("/eliminar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<User> eliminar(@PathVariable Long id, @PageableDefault(page=0, size = 8) Pageable pageable){
+    public ResponseEntity<?> eliminar(@PathVariable Long id, @PageableDefault(page=0, size = 8) Pageable pageable){
         return usuarioService.eliminar(id, pageable);
     } 
 

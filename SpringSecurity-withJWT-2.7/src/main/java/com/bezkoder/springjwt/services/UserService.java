@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,8 +50,9 @@ public class UserService {
         return ResponseEntity.ok(usuarioRepository.save(usuarioEditado));
     }
 
-    public Page<User> listarTodos(Pageable pageable) {
-        return usuarioRepository.findByEstado(pageable);
+    public ResponseEntity<?> listarTodos(Pageable pageable) {
+        Page<User> usersPage = usuarioRepository.findByEstado(pageable);
+        return ResponseEntity.ok(usersPage);
     }
 
     public ResponseEntity<?> listarAllRoles() {
@@ -69,10 +69,10 @@ public class UserService {
         return ResponseEntity.ok(usuarioRepository.findById(id).get());
     }
 
-    public Page<User> eliminar(Long id, Pageable pageable) {
+    public ResponseEntity<?> eliminar(Long id, Pageable pageable) {
         usuarioRepository.deleteById(id);
-        
-        return usuarioRepository.findByEstado(pageable);
+        Page<User> usersPage = usuarioRepository.findByEstado(pageable);
+        return ResponseEntity.ok(usersPage);
     }
     
     public ResponseEntity<?> listarUsuariosPorRoles(String roles) {

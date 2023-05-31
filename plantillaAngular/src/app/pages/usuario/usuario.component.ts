@@ -58,7 +58,7 @@ export class UsuarioComponent {
   listarUsuarios() {
     this.usuarioService.listar(this.page).subscribe({
       next: (data: any) => {
-        console.log(data.totalPages);
+        console.log(data);
         this.totalPages = new Array(data['totalPages']);
         this.usuarios = data.content;
       },

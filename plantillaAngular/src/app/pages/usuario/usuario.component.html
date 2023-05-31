@@ -14,8 +14,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let usuario of usuarios">
-        <th scope="row">{{ usuario.id }} </th>
+      <tr *ngFor="let usuario of usuarios; let i = index">
+        <th scope="row">{{ (i + 1) + (page * 8) }} </th>
         <td>{{ usuario.firstname }} {{usuario.lastname }}</td>
         <td>{{ usuario.username }}</td>
         <td>{{ usuario.email }}</td>
