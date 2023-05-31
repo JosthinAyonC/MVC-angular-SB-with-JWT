@@ -74,7 +74,7 @@ export class UsuarioComponent {
   delete(id: number) {
     this.usuarioService.eliminar(id).subscribe({
       next: (data: any) => {
-        this.totalPages = data.totalPages;
+        this.totalPages = new Array(data['totalPages']);
         this.usuarios = data.content;
       },
       error: (error) => {

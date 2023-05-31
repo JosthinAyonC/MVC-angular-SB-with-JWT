@@ -17,8 +17,8 @@ mvn spring-boot:run
 ## Info de firma y duracion de token
 ```
 La informacion que se encuentra en application.properties es la firma y la duracion del token.
-bezkoder.app.jwtSecret= bezKoderSecretKey
 bezkoder.app.jwtExpirationMs= 12000000
+bezkoder.app.jwtSecret= bezKoderSecretKey
 ```
 
 ## Info de peticiones.
@@ -68,4 +68,20 @@ PUT (/api/usuario) Se debe mandar los parametros a editar por ej:
 Observacion: Email y Username no son editables para evitar errores.
 ```
 PUT (/api/usuario/eliminar/{id}) Cambia el campo "status" a nulo, y no se muestra mas en los elementos
+```
+POST (api/auth/signin)
+{
+    "username": "username123",
+    "password":"passwordMatches"
+}
+```
+POST (api/auth/signup)
+{
+    "username": "newusername123",
+    "email": "newemail@example.com",
+    "password":"yourpassword",
+    "firstname":"Julian",
+    "lastname":"Alvarez",
+    "lastname":"Alvarez",
+}
 ```

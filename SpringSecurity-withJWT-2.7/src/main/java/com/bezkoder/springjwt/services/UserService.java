@@ -29,6 +29,7 @@ public class UserService {
     @Autowired
     PasswordEncoder encoder;
 
+    //Post que se encarga de verificar que no existan datos duplicados y nulos, y posterior a eso inserta el dato.
     public ResponseEntity<?>  insertar(User userNew) {
         if(camposUnicosYnoNulos(userNew).getStatusCode().is4xxClientError()){
             return camposUnicosYnoNulos(userNew);
@@ -38,6 +39,7 @@ public class UserService {
         return ResponseEntity.ok(userNew);
     }
 
+    //Put que se encarga de actualizar los campos de los datos, solo los que vengan en el requestBody.
     public ResponseEntity<?> actualizar(User user) {
         Optional<User> optionalUsuario = usuarioRepository.findById(user.getId());
         if (optionalUsuario.isEmpty()) {
@@ -50,16 +52,19 @@ public class UserService {
         return ResponseEntity.ok(usuarioRepository.save(usuarioEditado));
     }
 
+    //Get que trae los datos paginagos
     public ResponseEntity<?> listarTodos(Pageable pageable) {
         Page<User> usersPage = usuarioRepository.findByEstado(pageable);
         return ResponseEntity.ok(usersPage);
     }
 
+    //Get que trae todos los roles para asi guardarlo en un usuario al crear uno nuevo.
     public ResponseEntity<?> listarAllRoles() {
         List<Role> roles = roleRepository.findAllRoles();
         return ResponseEntity.ok(roles);
     }
 
+    //Get que trae los datos por id
     public ResponseEntity<?> listarById(Long id) {
         if (!usuarioRepository.existsById(id)) {
             return ResponseEntity
@@ -69,12 +74,14 @@ public class UserService {
         return ResponseEntity.ok(usuarioRepository.findById(id).get());
     }
 
+    //Put que elimnado logico del dato al recibir el id por pathVariable
     public ResponseEntity<?> eliminar(Long id, Pageable pageable) {
         usuarioRepository.deleteById(id);
         Page<User> usersPage = usuarioRepository.findByEstado(pageable);
         return ResponseEntity.ok(usersPage);
     }
     
+    //Get que devuelve usuarios que contengan el rol que se pasa como string en un pathVariable
     public ResponseEntity<?> listarUsuariosPorRoles(String roles) {
         List<User> usuarios = usuarioRepository.findByRoles(roles);
         if (usuarios.isEmpty()) {
@@ -148,12 +155,12 @@ public class UserService {
         if (usuarioRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity
             .badRequest()
-            .body(new MessageResponse("Error: Usuario utilizado anteriormente!"));
+            .body(new MessageResponse("Error: Usuario utilizado anteriormente!, prueba con otro nombre de usuario."));
         }
         if (usuarioRepository.existsByEmail(user.getEmail())) {
             return ResponseEntity
             .badRequest()
-            .body(new MessageResponse("Error: Email ya utilizado anteriormente!"));
+            .body(new MessageResponse("Error: Email ya utilizado anteriormente! prueba con otro email."));
         }
         if (user.getUsername() == null || user.getEmail() == null || 
         user.getLastname() == null || user.getFirstname() == null || 
