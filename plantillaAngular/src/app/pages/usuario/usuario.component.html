@@ -1,6 +1,7 @@
 <div class="container" style="background-color: #dfdddd73;">
   <br>
-  <button *ngIf="isAdmin" class="btn btn-info m-2" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modal-nuevoUsuario">Agregar nuevo <i class="bi bi-person-add"></i></button>
+  <button *ngIf="isAdmin" class="btn btn-info m-2" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#modal-nuevoUsuario">Agregar nuevo <i class="bi bi-person-add"></i></button>
   <table class="table">
     <thead>
       <tr>
@@ -19,38 +20,37 @@
         <td>{{ usuario.firstname }} {{usuario.lastname }}</td>
         <td>{{ usuario.username }}</td>
         <td>{{ usuario.email }}</td>
-        <td *ngFor="let rol of usuario.roles">{{ rol.name == "ROLE_MODERATOR"? "Moderador":(rol.name == "ROLE_USER"?"Usuario":"Administrador") }}</td>
+        <td *ngFor="let rol of usuario.roles">{{ rol.name == "ROLE_MODERATOR"? "Moderador":(rol.name ==
+          "ROLE_USER"?"Usuario":"Administrador") }}</td>
         <td>{{ usuario.status == "A"? "Activo" : "Inactivo" }}</td>
         <td *ngIf="isAdmin">
-          <div class="d-flex gap-2 ">      
-            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirmacion" (click)="obtenerUsuario(usuario)"><i class="bi bi-trash-fill"></i></a>
+          <div class="d-flex gap-2 ">
+            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirmacion"
+              (click)="obtenerUsuario(usuario)"><i class="bi bi-trash-fill"></i></a>
             <a class="btn btn-warning" (click)="obtenerUsuarioId(usuario)"><i class="bi bi-pencil-fill"></i></a>
           </div>
-      </td>
-      </tr>
-      <tr>
-        <td>
-          <button [disabled]="(page==0)" (click)="lastPage()" class="btn btn-info m-2"><i class="bi bi-chevron-double-left"></i></button>
-        </td>
-        <td >
-          <span  *ngFor="let pageSelected of totalPages; let i = index">
-
-            <button (click)="setpage(i)" class="btn btn-info m-2">{{i+1}}</button>
-          </span>
-        </td>
-        <td>
-          <button [disabled]="(page==this.totalPages?.length! - 1 )" (click)="nextPage()" class="btn btn-info m-2"><i class="bi bi-chevron-double-right"></i></button>
         </td>
       </tr>
     </tbody>
   </table>
+  <div>
+    <ul class="pagination">
+      <li class="page-item">
+        <button [disabled]="(page==0)" (click)="lastPage()" class="page-link"><i
+            class="bi bi-chevron-double-left"></i></button>
+      </li>
+      <li class="page-item" *ngFor="let pageSelected of totalPages; let i = index">
+        <a (click)="setpage(i)" class="page-link">{{i+1}}</a>
+      </li>
+      <li class="page-item">
+        <button [disabled]="(page==this.totalPages?.length! - 1 )" (click)="nextPage()" class="page-link"><i
+            class="bi bi-chevron-double-right"></i></button>
+      </li>
+    </ul>
+  </div>
 
   <app-nuevo-usuario (usuarioGuardado)="onUsuarioGuardado($event)"></app-nuevo-usuario>
-  
-  <app-modal-confirm 
-  [idUsuarioAEliminar]="usuarioSeleccionado"
-  (eliminarUsuario)="delete($event)"
-  ></app-modal-confirm>
-   <br>
-</div>
 
+  <app-modal-confirm [idUsuarioAEliminar]="usuarioSeleccionado" (eliminarUsuario)="delete($event)"></app-modal-confirm>
+  <br>
+</div>

@@ -18,42 +18,39 @@ export class UsuarioComponent {
   usuarios: Usuario[] = [];
   role?: Role;
   isAdmin: boolean = false;
-  page: number = 0 ;
+  page: number = 0;
   totalPages?: Array<number>;
-  
+
   constructor(
     private usuarioService: UsuarioServiceService,
     private router: Router,
     private tokenService: TokenService
-  ) {}
-
-  obtenerUsuario(usuario: Usuario) {
-    this.usuarioSeleccionado = usuario;
-  }
-
-  obtenerUsuarioId(usuario: Usuario) {
-    localStorage.setItem('idUsuario', usuario.id!.toString());
-    this.router.navigate(['usuario/editar']);
-  }
+  ) { }
 
   ngOnInit() {
     if (this.tokenService.isAdmin() || this.tokenService.isMod()) {
       this.isAdmin = this.tokenService.isAdmin(); //Cambia el valor de admin para usarlo en el html
       this.listarUsuarios();
-    }else{
+    } else {
       this.router.navigate(['/unauthorize']);
     }
   }
 
-  lastPage(){
-      this.page--;
-      this.listarUsuarios();
+  lastPage() {
+    this.page--;
+    this.listarUsuarios();
   }
 
-  nextPage(){
-      this.page++;
-      this.listarUsuarios();
+  nextPage() {
+    this.page++;
+    this.listarUsuarios();
   }
+  
+  setpage(page: number): void {
+    this.page = page;
+    this.listarUsuarios();
+  }
+  
 
   listarUsuarios() {
     this.usuarioService.listar(this.page).subscribe({
@@ -67,7 +64,7 @@ export class UsuarioComponent {
         this.tokenService.logout();
         window.location.replace('/login');
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -80,7 +77,7 @@ export class UsuarioComponent {
       error: (error) => {
         console.log(`Ocurrió un error al eliminar al usuario ${error.status}`);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -88,8 +85,4 @@ export class UsuarioComponent {
     this.usuarios.unshift(usuario);
   }
 
-  setpage(page:number): void{
-    this.page = page;
-    this.listarUsuarios();
-  }
 }
